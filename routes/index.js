@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const thoughtRouter = require("./api"); //export user and generalize
+const routes = require("./api");
 
-router.use("/api", thoughtRouter);
+router.use("/api", routes);
 
 module.exports = router;
