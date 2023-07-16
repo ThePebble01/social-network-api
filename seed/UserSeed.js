@@ -2,7 +2,7 @@
   TODO:
   - Update UserSeed so its less dry.  Use a directed graph to abstract friend associations.
 */
-const { User, Thought } = require("../models");
+const User = require("../models");
 async function seedUsers() {
   try {
     const users = await User.find({}).exec();

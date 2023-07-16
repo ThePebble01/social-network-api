@@ -1,4 +1,4 @@
-const { User, Thought } = require("../models");
+const Thought = require("../models");
 //Comment Data Taken From 18-NoSQL/01-Activities/21-Ins_Virtuals
 const rawThoughtText = [
   "Decision Trackers are awesome",
