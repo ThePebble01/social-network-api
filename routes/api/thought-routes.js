@@ -18,7 +18,7 @@ thoughtRouter.get("/:id", async (req, res) => {
   try {
     const thought = await Thought.findOne({ _id: req.params.id });
     if (thought) {
-      res.status(200).json(thought.toJSON({ getters: true }));
+      res.status(200).json(thought);
     } else {
       res.status(404).json({
         error: `There are no thoughts in the database with an id of ${req.params.id}.`,
@@ -58,7 +58,7 @@ thoughtRouter.put("/:id", async (req, res) => {
       { $set: req.body }
     );
     if (thought) {
-      res.status(200).json(thought.toJSON({ getters: true }));
+      res.status(200).json(thought);
     } else {
       res.status(404).json({
         error: `Unable to find and update thought with an id of ${req.params.id}.`,
@@ -78,7 +78,45 @@ thoughtRouter.delete("/:id", async (req, res) => {
         .json({ message: "Successfully deleted a thought", thought });
     } else {
       res.status(404).json({
-        error: `Unable to find and update thought with an id of ${req.params.id}.`,
+        error: `Unable to delete a thought with an id of ${req.params.id}.`,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+});
+thoughtRouter.post("/:thoughtId/reactions", async (req, res) => {
+  try {
+    const thought = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions: req.body } },
+      { new: true }
+    );
+    if (thought) {
+      res.status(200).json(thought);
+    } else {
+      res.status(404).json({
+        error: `Unable to find and update thought with an id of ${req.params.thoughtId}.`,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+});
+thoughtRouter.delete("/:thoughtId/reactions", async (req, res) => {
+  try {
+    const thought = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { reactionId: req.body.id } } },
+      { new: true }
+    );
+    if (thought) {
+      res.status(200).json(thought);
+    } else {
+      res.status(404).json({
+        error: `Unable to find and update thought with an id of ${req.params.thoughtId}.`,
       });
     }
   } catch (err) {

@@ -1,11 +1,7 @@
-/*
-  TODO:
-  - Update UserSeed so its less dry.  Use a directed graph to abstract friend associations.
-*/
-const User = require("../models");
+const { User } = require("../models");
 async function seedUsers() {
   try {
-    const users = await User.find({}).exec();
+    const users = await User.find();
     if (users.length === 0) {
       const results = await User.insertMany([
         {
@@ -25,12 +21,12 @@ async function seedUsers() {
           email: "orange@msn.com",
         },
       ]);
-      const [user1, user2, user3, user4] = results;
+      const [user1, user2, user3, user4] = results; //Intentionally dry friend-associations.
       user1.friends.push(user2);
       user1.friends.push(user3);
       user1.friends.push(user4);
       await user1.save();
-      user2.friends.push(user1); //Friendship is a symetric relation...stalking is asymetric
+      user2.friends.push(user1); //Friendship is a symetric relation...stalking is asymetric.
       user2.friends.push(user3);
       await user2.save();
       user3.friends.push(user1);

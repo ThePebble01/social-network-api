@@ -18,7 +18,6 @@ db.once("open", async () => {
         if (userByUsername.has(username)) {
           const user = userByUsername.get(username);
           user.thoughts = thoughtIdByUsername.get(username);
-          console.log(user);
           await user.save();
         }
       }

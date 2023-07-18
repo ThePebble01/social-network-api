@@ -1,4 +1,4 @@
-const Thought = require("../models");
+const { Thought } = require("../models");
 //Comment Data Taken From 18-NoSQL/01-Activities/21-Ins_Virtuals
 const rawThoughtText = [
   "Decision Trackers are awesome",
@@ -19,7 +19,7 @@ const rawThoughtText = [
 async function seedThoughts(possibleUsernames) {
   try {
     const thoughtData = buildThoughtData(possibleUsernames);
-    const thoughts = await Thought.find({}).exec();
+    const thoughts = await Thought.find();
     if (thoughts.length === 0) {
       const results = await Thought.insertMany(thoughtData);
       console.log("Thoughts Added!");
