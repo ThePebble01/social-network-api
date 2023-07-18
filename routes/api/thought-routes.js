@@ -55,7 +55,8 @@ thoughtRouter.put("/:id", async (req, res) => {
   try {
     const thought = await Thought.findOneAndUpdate(
       { _id: req.params.id },
-      { $set: req.body }
+      { $set: req.body },
+      { new: true }
     );
     if (thought) {
       res.status(200).json(thought);
